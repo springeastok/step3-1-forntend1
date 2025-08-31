@@ -29,16 +29,16 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
-      # ===== ここから新しいステップを追加 =====
-      - name: Copy static assets to standalone folder
+      # ===== ここから下のステップを丸ごと置き換える =====
+      - name: Copy build assets to standalone folder
         run: |
-          cp -r ./.next/static ./.next/standalone/.next/static
-          # もしpublicフォルダがあれば、それもコピーします
+          # ビルド成果物(.nextフォルダ)を丸ごとstandaloneフォルダにコピーする
+          cp -r ./.next ./.next/standalone/
+          # publicフォルダがあれば、それもコピーする
           if [ -d "./public" ]; then
-            cp -r ./public ./.next/standalone/public
+            cp -r ./public ./.next/standalone/
           fi
-      # ===== ここまで新しいステップを追加 =====
-
+      # ===== ここまで =====
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -64,5 +64,6 @@ jobs:
           package: .
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DF73719DDD604E188DA8A6F54297ED3B }}
+
 
 
