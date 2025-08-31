@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: ./.next/standalone/
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,4 +52,5 @@ jobs:
           app-name: 'app-002-gen10-step3-1-node-oshima56'
           slot-name: 'Production'
           package: .
+
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DF73719DDD604E188DA8A6F54297ED3B }}
