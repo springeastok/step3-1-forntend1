@@ -29,6 +29,16 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      # ===== ここから新しいステップを追加 =====
+      - name: Copy static assets to standalone folder
+        run: |
+          cp -r ./.next/static ./.next/standalone/.next/static
+          # もしpublicフォルダがあれば、それもコピーします
+          if [ -d "./public" ]; then
+            cp -r ./public ./.next/standalone/public
+          fi
+      # ===== ここまで新しいステップを追加 =====
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -45,11 +55,6 @@ jobs:
         with:
           name: node-app
           
-      # ===== ここからデバッグ用のステップを追加 =====
-      - name: List files for debugging
-        run: ls -R
-      # ===== ここまでデバッグ用のステップを追加 =====
-      
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -59,4 +64,5 @@ jobs:
           package: .
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DF73719DDD604E188DA8A6F54297ED3B }}
+
 
