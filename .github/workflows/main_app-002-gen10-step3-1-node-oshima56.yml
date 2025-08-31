@@ -44,6 +44,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
+          
+      # ===== ここからデバッグ用のステップを追加 =====
+      - name: List files for debugging
+        run: ls -R
+      # ===== ここまでデバッグ用のステップを追加 =====
       
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -54,3 +59,4 @@ jobs:
           package: .
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DF73719DDD604E188DA8A6F54297ED3B }}
+
